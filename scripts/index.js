@@ -13,10 +13,11 @@ function createCard(card, removePlace) {
   cardElement.querySelector('.card__image').alt = card.name;
   cardElement.querySelector('.card__title').textContent = card.name;
 
+  // вешаем обработчик события на кнопку удаления
   const deleteButton = cardElement.querySelector('.card__delete-button');
   deleteButton.addEventListener('click', () => removePlace(cardElement));
 
-  // отображаем на странице
+  // возвращаем карточку
   return cardElement;
 }
 
@@ -24,7 +25,6 @@ function createCard(card, removePlace) {
 function removePlace(card) {
   card.remove();
 }
-
 
 // @todo: Вывести карточки на страницу
 initialCards.forEach(item => {
