@@ -1,3 +1,7 @@
+import './styles/index.css';
+
+import {initialCards} from './scripts/cards';
+
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
 
@@ -31,5 +35,3 @@ initialCards.forEach(item => {
   const card = createCard(item, removePlace);
   cardsContainer.prepend(card); 
 });
-
-
