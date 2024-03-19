@@ -75,15 +75,21 @@ function handleCardSubmit(evt) {
     name: addCardForm.elements['place-name'].value,
     link: addCardForm.elements.link.value
   }
-  const card = createCard(cardObj, removePlace);
+  const card = createCard(cardObj, removePlace, likePlace);
   cardsContainer.prepend(card);
   closeModal(addPopup);
   addCardForm.elements['place-name'].value = '';
   addCardForm.elements.link.value = '';
 }
 
+function likePlace(heart) {
+  
+  heart.classList.toggle('card__like-button_is-active');
+}
+
+
 // @todo: Функция создания карточки
-function createCard(card, removePlace) {
+function createCard(card, removePlace, likePlace) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
   // наполняем содержимым
@@ -95,9 +101,15 @@ function createCard(card, removePlace) {
   const deleteButton = cardElement.querySelector('.card__delete-button');
   deleteButton.addEventListener('click', () => removePlace(cardElement));
 
+  //Кнопка лайка
+  const likeButton = cardElement.querySelector('.card__like-button');
+  likeButton.addEventListener('click', () => likePlace(likeButton));
+  
+
   // возвращаем карточку
   return cardElement;
 }
+
 
 // @todo: Функция удаления карточки
 function removePlace(card) {
@@ -106,6 +118,6 @@ function removePlace(card) {
 
 // @todo: Вывести карточки на страницу
 initialCards.forEach(item => {
-  const card = createCard(item, removePlace);
+  const card = createCard(item, removePlace, likePlace);
   cardsContainer.prepend(card); 
 });
