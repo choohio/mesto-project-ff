@@ -12,9 +12,11 @@ const editPopup = document.querySelector('.popup_type_edit');
 // Попап добавления карточки
 const addPopup = document.querySelector('.popup_type_new-card');
 
+// Попап с картинкой
+const imagePopup = document.querySelector('.popup_type_image');
+
 // @todo: DOM узлы
 const cardsContainer = document.querySelector('.places__list');
-
 
 // Форма
 const formElement = document.forms['edit-profile'];
@@ -45,8 +47,6 @@ addButton.addEventListener('click', () => openModal(addPopup));
 const closeAddButton = addPopup.querySelector('.popup__close');
 closeAddButton.addEventListener('click', () => closeModal(addPopup));
 
-
-
 document.addEventListener('click', (e) => {
   if (e.target.classList.contains('popup_is-opened')) {
     closeModal(e.target)
@@ -56,12 +56,11 @@ document.addEventListener('click', (e) => {
 // Закрытие попапов кнопкой Escape
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    closeModal(editPopup)
-    closeModal(addPopup)
+    closeModal(editPopup);
+    closeModal(addPopup);
+    closeModal(imagePopup);
   }
 })
-
-
 
 //Форма добавления карточки
 
@@ -75,7 +74,7 @@ function handleCardSubmit(evt) {
     name: addCardForm.elements['place-name'].value,
     link: addCardForm.elements.link.value
   }
-  const card = createCard(cardObj, removePlace, likePlace);
+  const card = createCard(cardObj, removePlace, likePlace, handleImageClick);
   cardsContainer.prepend(card);
   closeModal(addPopup);
   addCardForm.elements['place-name'].value = '';
@@ -83,13 +82,19 @@ function handleCardSubmit(evt) {
 }
 
 function likePlace(heart) {
-  
   heart.classList.toggle('card__like-button_is-active');
+}
+
+function handleImageClick (card) {
+  imagePopup.querySelector('.popup__caption').textContent = card.name;
+  imagePopup.querySelector('.popup__image').src = card.link;
+  imagePopup.querySelector('.popup__image').alt = card.name;
+  imagePopup.querySelector('.popup__close').addEventListener('click', () => closeModal(imagePopup))
 }
 
 
 // @todo: Функция создания карточки
-function createCard(card, removePlace, likePlace) {
+function createCard(card, removePlace, likePlace, imageClick) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
   // наполняем содержимым
@@ -104,12 +109,20 @@ function createCard(card, removePlace, likePlace) {
   //Кнопка лайка
   const likeButton = cardElement.querySelector('.card__like-button');
   likeButton.addEventListener('click', () => likePlace(likeButton));
+
+  const image = cardElement.querySelector('.card__image');
+
+  
+
+  image.addEventListener('click', () => {
+    imageClick(card);
+    openModal(imagePopup);
+  });
   
 
   // возвращаем карточку
   return cardElement;
 }
-
 
 // @todo: Функция удаления карточки
 function removePlace(card) {
@@ -118,6 +131,6 @@ function removePlace(card) {
 
 // @todo: Вывести карточки на страницу
 initialCards.forEach(item => {
-  const card = createCard(item, removePlace, likePlace);
+  const card = createCard(item, removePlace, likePlace, handleImageClick);
   cardsContainer.prepend(card); 
 });
