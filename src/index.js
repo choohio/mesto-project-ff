@@ -112,13 +112,10 @@ function createCard(card, removePlace, likePlace, imageClick) {
 
   const image = cardElement.querySelector('.card__image');
 
-  
-
   image.addEventListener('click', () => {
     imageClick(card);
     openModal(imagePopup);
   });
-  
 
   // возвращаем карточку
   return cardElement;
