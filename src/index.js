@@ -1,10 +1,11 @@
 import './styles/index.css';
-import {openModal, closeModal} from './scripts/modal';
+import { openModal, closeModal, closeByClickOnOverlay } from './scripts/modal';
 
-import {initialCards} from './scripts/cards';
+import { initialCards } from './scripts/cards';
+import { createCard, likePlace } from './scripts/card';
 
-// @todo: Темплейт карточки
-const cardTemplate = document.querySelector('#card-template').content;
+const popups = document.querySelectorAll('.popup');
+popups.forEach(popup => popup.addEventListener('click', closeByClickOnOverlay));
 
 // Попап редактирования
 const editPopup = document.querySelector('.popup_type_edit');
@@ -29,7 +30,7 @@ function handleSubmit(evt) {
   evt.preventDefault();
   document.querySelector('.profile__title').textContent = nameInput.value;
   document.querySelector('.profile__description').textContent = jobInput.value;
-  closeModal(editPopup);
+  closeModal();
 }
 
 formElement.addEventListener('submit', handleSubmit);
@@ -38,29 +39,13 @@ formElement.addEventListener('submit', handleSubmit);
 const editButton = document.querySelector('.profile__edit-button');
 editButton.addEventListener('click', () => openModal(editPopup));
 
-const closeEditButton = editPopup.querySelector('.popup__close');
-closeEditButton.addEventListener('click', () => closeModal(editPopup));
-
 const addButton = document.querySelector('.profile__add-button');
 addButton.addEventListener('click', () => openModal(addPopup));
 
-const closeAddButton = addPopup.querySelector('.popup__close');
-closeAddButton.addEventListener('click', () => closeModal(addPopup));
-
-document.addEventListener('click', (e) => {
-  if (e.target.classList.contains('popup_is-opened')) {
-    closeModal(e.target)
-  }
+document.querySelectorAll('.popup__close').forEach(cross => {
+  cross.addEventListener('click', closeModal);
 })
 
-// Закрытие попапов кнопкой Escape
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closeModal(editPopup);
-    closeModal(addPopup);
-    closeModal(imagePopup);
-  }
-})
 
 //Форма добавления карточки
 
@@ -76,49 +61,17 @@ function handleCardSubmit(evt) {
   }
   const card = createCard(cardObj, removePlace, likePlace, handleImageClick);
   cardsContainer.prepend(card);
-  closeModal(addPopup);
+  closeModal();
   addCardForm.elements['place-name'].value = '';
   addCardForm.elements.link.value = '';
 }
 
-function likePlace(heart) {
-  heart.classList.toggle('card__like-button_is-active');
-}
+
 
 function handleImageClick (card) {
   imagePopup.querySelector('.popup__caption').textContent = card.name;
   imagePopup.querySelector('.popup__image').src = card.link;
   imagePopup.querySelector('.popup__image').alt = card.name;
-  imagePopup.querySelector('.popup__close').addEventListener('click', () => closeModal(imagePopup))
-}
-
-
-// @todo: Функция создания карточки
-function createCard(card, removePlace, likePlace, imageClick) {
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-
-  // наполняем содержимым
-  cardElement.querySelector('.card__image').src = card.link;
-  cardElement.querySelector('.card__image').alt = card.name;
-  cardElement.querySelector('.card__title').textContent = card.name;
-
-  // вешаем обработчик события на кнопку удаления
-  const deleteButton = cardElement.querySelector('.card__delete-button');
-  deleteButton.addEventListener('click', () => removePlace(cardElement));
-
-  //Кнопка лайка
-  const likeButton = cardElement.querySelector('.card__like-button');
-  likeButton.addEventListener('click', () => likePlace(likeButton));
-
-  const image = cardElement.querySelector('.card__image');
-
-  image.addEventListener('click', () => {
-    imageClick(card);
-    openModal(imagePopup);
-  });
-
-  // возвращаем карточку
-  return cardElement;
 }
 
 // @todo: Функция удаления карточки
