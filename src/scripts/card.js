@@ -1,13 +1,13 @@
-import { openModal, closeModal } from "./modal";
-
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
 
-// Попап с картинкой
-const imagePopup = document.querySelector('.popup_type_image');
-
 export function likePlace(heart) {
   heart.classList.toggle('card__like-button_is-active');
+}
+
+// @todo: Функция удаления карточки
+export function removePlace(card) {
+  card.remove();
 }
 
 // @todo: Функция создания карточки
@@ -31,7 +31,6 @@ export function createCard(card, removePlace, likePlace, imageClick) {
   
   image.addEventListener('click', () => {
       imageClick(card);
-      openModal(imagePopup);
     });
   
     // возвращаем карточку
