@@ -22,9 +22,7 @@ const cardsContainer = document.querySelector('.places__list');
 // Форма
 const formProfileElement = document.forms['edit-profile'];
 const nameInput = formProfileElement.querySelector('.popup__input_type_name');
-nameInput.value = document.querySelector('.profile__title').textContent;
 const jobInput = formProfileElement.querySelector('.popup__input_type_description');
-jobInput.value = document.querySelector('.profile__description').textContent;
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
@@ -37,7 +35,11 @@ formProfileElement.addEventListener('submit', handleProfileFormSubmit);
 
 // Кнопки
 const editButton = document.querySelector('.profile__edit-button');
-editButton.addEventListener('click', () => openModal(editPopup));
+editButton.addEventListener('click', () => {
+  nameInput.value = document.querySelector('.profile__title').textContent;
+  jobInput.value = document.querySelector('.profile__description').textContent;
+  openModal(editPopup)
+});
 
 const addButton = document.querySelector('.profile__add-button');
 addButton.addEventListener('click', () => openModal(addPopup));
