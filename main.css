@@ -624,6 +624,10 @@ template {
   }
 }
 
+.profile__image-container {
+  position: relative;
+}
+
 .profile__image {
   width: 120px;
   height: 120px;
@@ -633,6 +637,25 @@ template {
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+}
+
+.profile__image-container:hover > .profile__image {
+  opacity: 0.8;
+}
+
+.profile__image-container:hover > .profile__image-edit {
+  visibility: visible;
+}
+
+.profile__image-edit {
+  position: absolute;
+  background: transparent url(a086f758840ae814ecde.svg) center no-repeat;
+  top: 50px;
+  left: 50px;
+  width: 26px;
+  height: 26px;
+  z-index: 20;
+  visibility: hidden;
 }
 
 @media screen and (max-width: 740px) {
@@ -725,6 +748,13 @@ template {
 
 .card__like-button:hover {
   opacity: 0.6;
+}
+
+.card__likes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 
 .card__like-button_is-active {
@@ -874,6 +904,21 @@ template {
   }
 }
 
+.form__input-error {
+  display: none;
+}
+
+.form__input-error_active {
+  display: block;
+  font-size: 12px;
+  color: #FF0000;
+  line-height: 14.52px;
+}
+
+.form__input_type_error {
+  border-bottom-color: #FF0000;
+}
+
 .popup__button {
   width: 100%;
   height: 50px;
@@ -885,7 +930,9 @@ template {
   justify-content: center;
   background: #000;
   border-radius: 2px;
-  border: none;
+  border: 1px solid;
+  /* border-width: 1px; */
+  /* border-color: #000; */
   transition: visibility 0s, background 0.3s;
   margin-top: 48px;
 }
@@ -900,6 +947,13 @@ template {
     font-size: 14px;
     line-height: 17px;
   }
+}
+
+.popup__button:disabled {
+  cursor: default;
+  background-color: transparent;
+  color: #C4C4C4;
+  border-color: #C4C4C4;
 }
 
 .popup__caption {
