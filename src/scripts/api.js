@@ -7,9 +7,9 @@ export const config = {
 };
 
 function checkStatus(res) {
-  if (res.status !== 200) {
+  if (!res.ok) {
     console.log(`Есть проблема. Код ${res.status}.`);
-    return;
+    return Promise.reject(`Ошибка: ${res.status}`);
   } else {
     return res.json();
   }
@@ -58,4 +58,30 @@ export function deleteCard(cardId) {
     headers: config.headers
   })
     .then(res => checkStatus(res));
+}
+
+export function updateAvatar(link) {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify(link)
+  })
+    .then(res => checkStatus(res))
+    .catch(err => console.log(err));
+}
+
+export function likeCard(cardId) {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'PUT',
+    headers: config.headers
+  })
+    .then(res => checkStatus(res))
+}
+
+export function removeLike(cardId) {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+    .then(res => checkStatus(res))
 }

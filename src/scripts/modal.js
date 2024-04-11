@@ -1,5 +1,3 @@
-import { clearValidation } from "./validation";
-
 export function openModal(modal) {
   modal.classList.add('popup_is-opened');
   modal.classList.add('popup_is-animated');
@@ -9,7 +7,6 @@ export function openModal(modal) {
 export function closeModal(modal) {
   modal.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', closeByEscape);
-  clearValidation(modal);
 }
 
 export function closeByEscape(evt) {
