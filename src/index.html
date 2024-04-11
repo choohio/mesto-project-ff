@@ -40,7 +40,7 @@
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
       <form class="popup__form" name="edit-profile" novalidate>
-        <input id="name-input" type="text" name="name" class="popup__input popup__input_type_name" pattern="^[a-zA-Z]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" placeholder="Имя" required minlength="2" maxlength="40">
+        <input id="name-input" type="text" name="name" class="popup__input popup__input_type_name" pattern="^[a-zA-Zа-яА-Яё\-\s]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" placeholder="Имя" required minlength="2" maxlength="40">
         <span class="name-input-error form__input-error">Необходимо заполнить данное поле</span>
         <input id="description-input" type="text" name="description" class="popup__input popup__input_type_description" pattern="^[a-zA-Z]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" placeholder="Занятие" required minlength="2" maxlength="200">
         <span class="description-input-error form__input-error">Необходимо заполнить данное поле</span>

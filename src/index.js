@@ -34,7 +34,6 @@ const cardsContainer = document.querySelector('.places__list');
 // Отрисовываем карточки
 getInitialCards()
   .then(initialCards => {
-    console.log(initialCards)
     initialCards.forEach(place => {
       const card = createCard(place, removePlace, likePlace, handleImageClick);
       cardsContainer.append(card); 
