@@ -9,7 +9,7 @@ import {
 import { openModal, closeModal, closeByClickOnOverlay } from './scripts/modal';
 import { createCard, likePlace, removePlace } from './scripts/card';
 import { enableValidation, clearValidation } from './scripts/validation';
-import { renderLoading, handleSubmit } from './scripts/utils';
+import { handleSubmit } from './scripts/utils';
 import { validationConfig } from './utils/constants';
 
 // Профиль
