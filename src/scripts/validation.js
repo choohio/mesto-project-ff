@@ -47,9 +47,13 @@ export const toggleButtonState = (inputList, buttonElement, validationConfig) =>
 const setEventListeners = (formElement, validationConfig) => {
   const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
   const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+  formElement.addEventListener('reset', () => {
+    toggleButtonState(inputList, buttonElement, validationConfig)
+  });
+  toggleButtonState(inputList, buttonElement, validationConfig);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
-      isValid(formElement, inputElement, validationConfig)
+      isValid(formElement, inputElement, validationConfig);
       toggleButtonState(inputList, buttonElement, validationConfig);
     });
   });
@@ -63,7 +67,9 @@ export const enableValidation = (validationConfig) => {
 };
 
 export function clearValidation (modal, validationConfig) {
-  const inputList = modal.querySelectorAll(validationConfig.inputSelector);
+  const inputList = Array.from(modal.querySelectorAll(validationConfig.inputSelector));
+  const btn = modal.querySelector(validationConfig.submitButtonSelector);
+  toggleButtonState(inputList, btn, validationConfig);
   [...inputList].forEach(input => hideError(modal, input, validationConfig));
 }
 

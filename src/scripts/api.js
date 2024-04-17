@@ -6,6 +6,10 @@ export const config = {
   }
 };
 
+function request(url, options) {
+  return fetch(url, options).then(checkStatus)
+}
+
 function checkStatus(res) {
   if (!res.ok) {
     console.log(`Есть проблема. Код ${res.status}.`);
@@ -17,25 +21,23 @@ function checkStatus(res) {
 
 // Получаем карточки
 export function getInitialCards() {
-  return fetch(`${config.baseUrl}/cards`, {
+  return request(`${config.baseUrl}/cards`, {
     method: 'GET',
     headers: config.headers
   })
-    .then(res => checkStatus(res));
 }
 
 // Получаем данные профиля
 export function getProfileInfo() {
-  return fetch(`${config.baseUrl}/users/me`, {
+  return request(`${config.baseUrl}/users/me`, {
     method: 'GET',
     headers: config.headers
   })
-    .then(res => checkStatus(res));
 }
 
 // Изменяем информацию в профиле
 export function updateProfileInfo(profileObject) {
-  return fetch(`${config.baseUrl}/users/me`, {
+  return request(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify(profileObject)
@@ -44,44 +46,38 @@ export function updateProfileInfo(profileObject) {
 
 // Добавляем новое место
 export function addNewPlace(placeObject) {
-  return fetch(`${config.baseUrl}/cards`, {
+  return request(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify(placeObject) 
   })
-    .then(res => checkStatus(res));
 }
 
 export function deleteCard(cardId) {
-  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+  return request(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
   })
-    .then(res => checkStatus(res));
 }
 
 export function updateAvatar(link) {
-  return fetch(`${config.baseUrl}/users/me/avatar`, {
+  return request(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify(link)
   })
-    .then(res => checkStatus(res))
-    .catch(err => console.log(err));
 }
 
 export function likeCard(cardId) {
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+  return request(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'PUT',
     headers: config.headers
   })
-    .then(res => checkStatus(res))
 }
 
 export function removeLike(cardId) {
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+  return request(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
   })
-    .then(res => checkStatus(res))
 }
