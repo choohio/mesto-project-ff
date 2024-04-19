@@ -21,12 +21,13 @@ export function likePlace(evt, cardElement, likesNumber) {
           })
           .catch(err => console.log(err));
       }
-}
+};
     
 // Функция удаления карточки
 export function removePlace(card) {
   deleteCard(card.id)
-    .then(() => card.remove());
+    .then(() => card.remove())
+    .catch(err => console.log(err));
 }
 
 // Функция создания карточки
@@ -55,14 +56,12 @@ export function createCard(card, userId, callbacks) {
   //Кнопка лайка
   likesButton.addEventListener('click', evt => callbacks.likePlace(evt, cardElement, likesNumber));
 
-  let isLiked = card.likes.find(item => item._id === userId);
+  const isLiked = card.likes.find(item => item._id === userId);
   if (isLiked) {
     likesButton.classList.toggle('card__like-button_is-active');
   }
-  
-  const image = cardElement.querySelector('.card__image');
-  
-  image.addEventListener('click', () => {
+    
+  cardImage.addEventListener('click', () => {
       callbacks.handleImageClick(card);
     });
   

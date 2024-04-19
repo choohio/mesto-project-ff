@@ -31,12 +31,16 @@ const hasInvalidInput = (inputList) => {
   })
 };
 
+function disableButton(submitButton, settings) {
+  submitButton.disabled = 'disabled';
+  submitButton.classList.add(settings.inactiveButtonClass);
+}
+
 export const toggleButtonState = (inputList, buttonElement, validationConfig) => {
   // Если есть хотя бы один невалидный инпут
   if (hasInvalidInput(inputList)) {
     // сделай кнопку неактивной
-    buttonElement.disabled = true;
-    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+    disableButton(buttonElement, validationConfig);
   } else {
     // иначе сделай кнопку активной
     buttonElement.disabled = false;
@@ -48,7 +52,7 @@ const setEventListeners = (formElement, validationConfig) => {
   const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
   const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
   formElement.addEventListener('reset', () => {
-    toggleButtonState(inputList, buttonElement, validationConfig)
+    disableButton(buttonElement, validationConfig);
   });
   toggleButtonState(inputList, buttonElement, validationConfig);
   inputList.forEach((inputElement) => {
@@ -68,8 +72,8 @@ export const enableValidation = (validationConfig) => {
 
 export function clearValidation (modal, validationConfig) {
   const inputList = Array.from(modal.querySelectorAll(validationConfig.inputSelector));
-  const btn = modal.querySelector(validationConfig.submitButtonSelector);
-  toggleButtonState(inputList, btn, validationConfig);
-  [...inputList].forEach(input => hideError(modal, input, validationConfig));
+  const submitter = modal.querySelector(validationConfig.submitButtonSelector);
+  toggleButtonState(inputList, submitter, validationConfig);
+  inputList.forEach(input => hideError(modal, input, validationConfig));
 }
 
